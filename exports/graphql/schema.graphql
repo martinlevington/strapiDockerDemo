@@ -1,0 +1,358 @@
+input createMenuitemInput {
+  data: MenuitemInput
+}
+
+type createMenuitemPayload {
+  menuitem: Menuitem
+}
+
+input createRoleInput {
+  data: RoleInput
+}
+
+type createRolePayload {
+  role: UsersPermissionsRole
+}
+
+input createTakeawayInput {
+  data: TakeawayInput
+}
+
+type createTakeawayPayload {
+  takeaway: Takeaway
+}
+
+input createUserInput {
+  data: UserInput
+}
+
+type createUserPayload {
+  user: UsersPermissionsUser
+}
+
+"""
+The `DateTime` scalar represents a date and time following the ISO 8601 standard
+"""
+scalar DateTime
+
+input deleteMenuitemInput {
+  where: InputID
+}
+
+type deleteMenuitemPayload {
+  menuitem: Menuitem
+}
+
+input deleteRoleInput {
+  where: InputID
+}
+
+type deleteRolePayload {
+  role: UsersPermissionsRole
+}
+
+input deleteTakeawayInput {
+  where: InputID
+}
+
+type deleteTakeawayPayload {
+  takeaway: Takeaway
+}
+
+input deleteUserInput {
+  where: InputID
+}
+
+type deleteUserPayload {
+  user: UsersPermissionsUser
+}
+
+input editFileInput {
+  name: String
+  hash: String
+  sha256: String
+  ext: String
+  mime: String
+  size: String
+  url: String
+  provider: String
+  provider_metadata: JSON
+  related: [ID]
+}
+
+input editMenuitemInput {
+  name: String
+  description: String
+  image: ID
+  price: Float
+  takeaway: ID
+}
+
+input editRoleInput {
+  name: String
+  description: String
+  type: String
+  permissions: [ID]
+  users: [ID]
+}
+
+input editTakeawayInput {
+  name: String
+  description: String
+  delivery_time: String
+  image: ID
+  menuitems: [ID]
+}
+
+input editUserInput {
+  username: String
+  email: String
+  provider: String
+  password: String
+  resetPasswordToken: String
+  confirmed: Boolean
+  blocked: Boolean
+  role: ID
+}
+
+input FileInput {
+  name: String!
+  hash: String!
+  sha256: String
+  ext: String
+  mime: String!
+  size: String!
+  url: String!
+  provider: String!
+  provider_metadata: JSON
+  related: [ID]
+}
+
+input InputID {
+  id: ID!
+}
+
+scalar JSON
+
+"""The `Long` scalar type represents 52-bit integers"""
+scalar Long
+
+type Menuitem {
+  name: String
+  description: String
+  image: UploadFile
+  price: Float
+  takeaway: Takeaway
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input MenuitemInput {
+  name: String
+  description: String
+  image: ID
+  price: Float
+  takeaway: ID
+}
+
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | Menuitem | createMenuitemPayload | updateMenuitemPayload | deleteMenuitemPayload | Takeaway | createTakeawayPayload | updateTakeawayPayload | deleteTakeawayPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+
+type Mutation {
+  createMenuitem(input: createMenuitemInput): createMenuitemPayload
+  updateMenuitem(input: updateMenuitemInput): updateMenuitemPayload
+  deleteMenuitem(input: deleteMenuitemInput): deleteMenuitemPayload
+  createTakeaway(input: createTakeawayInput): createTakeawayPayload
+  updateTakeaway(input: updateTakeawayInput): updateTakeawayPayload
+  deleteTakeaway(input: deleteTakeawayInput): deleteTakeawayPayload
+
+  """Create a new role"""
+  createRole(input: createRoleInput): createRolePayload
+
+  """Update an existing role"""
+  updateRole(input: updateRoleInput): updateRolePayload
+
+  """Delete an existing role"""
+  deleteRole(input: deleteRoleInput): deleteRolePayload
+
+  """Create a new user"""
+  createUser(input: createUserInput): createUserPayload
+
+  """Update an existing user"""
+  updateUser(input: updateUserInput): updateUserPayload
+
+  """Delete an existing user"""
+  deleteUser(input: deleteUserInput): deleteUserPayload
+  upload(refId: ID, ref: String, field: String, source: String, file: Upload!): UploadFile!
+  multipleUpload(refId: ID, ref: String, field: String, source: String, files: [Upload]!): [UploadFile]!
+  login(input: UsersPermissionsLoginInput!): UsersPermissionsLoginPayload!
+  register(input: UserInput!): UsersPermissionsLoginPayload!
+}
+
+type Query {
+  menuitem(id: ID!): Menuitem
+  menuitems(sort: String, limit: Int, start: Int, where: JSON): [Menuitem]
+  takeaway(id: ID!): Takeaway
+  takeaways(sort: String, limit: Int, start: Int, where: JSON): [Takeaway]
+  files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
+  role(id: ID!): UsersPermissionsRole
+
+  """
+  Retrieve all the existing roles. You can't apply filters on this query.
+  """
+  roles(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsRole]
+  user(id: ID!): UsersPermissionsUser
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  me: UsersPermissionsMe
+}
+
+input RoleInput {
+  name: String!
+  description: String
+  type: String
+  permissions: [ID]
+  users: [ID]
+}
+
+type Takeaway {
+  name: String
+  description: String
+  delivery_time: String
+  image: UploadFile
+  menuitems(sort: String, limit: Int, start: Int, where: JSON): [Menuitem]
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input TakeawayInput {
+  name: String
+  description: String
+  delivery_time: String
+  image: ID
+  menuitems: [ID]
+}
+
+input updateMenuitemInput {
+  where: InputID
+  data: editMenuitemInput
+}
+
+type updateMenuitemPayload {
+  menuitem: Menuitem
+}
+
+input updateRoleInput {
+  where: InputID
+  data: editRoleInput
+}
+
+type updateRolePayload {
+  role: UsersPermissionsRole
+}
+
+input updateTakeawayInput {
+  where: InputID
+  data: editTakeawayInput
+}
+
+type updateTakeawayPayload {
+  takeaway: Takeaway
+}
+
+input updateUserInput {
+  where: InputID
+  data: editUserInput
+}
+
+type updateUserPayload {
+  user: UsersPermissionsUser
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type UploadFile {
+  name: String!
+  hash: String!
+  sha256: String
+  ext: String
+  mime: String!
+  size: String!
+  url: String!
+  provider: String!
+  provider_metadata: JSON
+  related(sort: String, limit: Int, start: Int, where: JSON): [Morph]
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input UserInput {
+  username: String!
+  email: String!
+  provider: String
+  password: String
+  resetPasswordToken: String
+  confirmed: Boolean
+  blocked: Boolean
+  role: ID
+}
+
+input UsersPermissionsLoginInput {
+  identifier: String!
+  password: String!
+  provider: String = "local"
+}
+
+type UsersPermissionsLoginPayload {
+  jwt: String!
+  user: UsersPermissionsUser!
+}
+
+type UsersPermissionsMe {
+  id: ID!
+  username: String!
+  email: String!
+  confirmed: Boolean
+  blocked: Boolean
+  role: UsersPermissionsMeRole
+}
+
+type UsersPermissionsMeRole {
+  id: ID!
+  name: String!
+  description: String
+  type: String
+}
+
+type UsersPermissionsPermission {
+  type: String!
+  controller: String!
+  action: String!
+  enabled: Boolean!
+  policy: String
+  role: UsersPermissionsRole
+  id: ID!
+}
+
+type UsersPermissionsRole {
+  name: String!
+  description: String
+  type: String
+  permissions(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsPermission]
+  users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
+  id: ID!
+}
+
+type UsersPermissionsUser {
+  username: String!
+  email: String!
+  provider: String
+  confirmed: Boolean
+  blocked: Boolean
+  role: UsersPermissionsRole
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+}

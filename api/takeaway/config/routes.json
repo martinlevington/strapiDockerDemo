@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/takeaways",
+      "handler": "Takeaway.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/takeaways/count",
+      "handler": "Takeaway.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/takeaways/:id",
+      "handler": "Takeaway.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/takeaways",
+      "handler": "Takeaway.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/takeaways/:id",
+      "handler": "Takeaway.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/takeaways/:id",
+      "handler": "Takeaway.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
